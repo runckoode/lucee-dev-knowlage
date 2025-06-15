@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  lucee:
+    build: .
+    container_name: cms-lucee-server
+    ports:
+      - "8888:8888"
+    environment:
+      LUCEE_ADMIN_PASSWORD: "password123"
+      LUCEE_JAVA_OPTS: "-Xms256m -Xmx1024m"
+
+    volumes:
+      - ./www:/var/www:Z

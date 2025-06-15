@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:16
+    container_name: cms-postgres-db
+    environment:
+      POSTGRES_DB: "inventario" # Database name
+      POSTGRES_USER: "user" # Database user
+      POSTGRES_PASSWORD: "userpassword"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:Z
+      - ./create.sql:/docker-entrypoint-initdb.d/01_init.sql:ro,Z
+      - ./insert.sql:/docker-entrypoint-initdb.d/02_insert.sql:ro,Z
+    ports:
+      - "5432:5432" # Default PostgreSQL port
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d inventario"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      app-network:
+        ipv4_address: 172.18.1.2
+
+  lucee:
+    build: .
+    container_name: cms-lucee-server
+    ports:
+      - "8888:8888"
+    environment:
+      LUCEE_ADMIN_PASSWORD: "password123"
+      LUCEE_JAVA_OPTS: "-Xms256m -Xmx1024m"
+      LUCEE_PRESERVE_CASE: "true"
+    volumes:
+      - ./www:/var/www:Z
+
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      app-network:
+        ipv4_address: 172.18.1.3
+
+volumes:
+  postgres_data:
+  lucee-config:
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
+          gateway: 172.18.1.1

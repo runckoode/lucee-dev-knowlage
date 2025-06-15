@@ -10,7 +10,7 @@
  
 function prepareChartData() {
     var movementTrends = variables.inventory.getMovementTrendsLast30Days();
-    writeDump(movementTrends);
+    //writeDump(movementTrends);
     var categoryDistribution = variables.inventory.getStockDistributionByCategory();
     // Prepare movement data
     var movementData = {
@@ -46,9 +46,9 @@ function prepareChartData() {
         lowStockProducts = inventory.getLowStockProducts(5);
    
         recentMovements = inventory.getRecentMovements(5);
-        writeDump(recentMovements);
+      //  writeDump(recentMovements);
         productsForDropdown = inventory.getProducts();
-        writeDump(productsForDropdown);
+       // writeDump(productsForDropdown);
 
         variables.generatedChartData = prepareChartData();
         variables.movementChartJSON = variables.generatedChartData.movementChartJSON;

@@ -29,7 +29,7 @@ Sistema web moderno para gestión de inventario desarrollado con Lucee CFML y Po
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/tuusuario/inventariopro.git
+git clone https://github.com/runckoode/lucee-dev-knowlage.git
 ```
 
 2. Iniciar los contenedores:

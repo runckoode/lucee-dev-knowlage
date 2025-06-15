@@ -21,7 +21,7 @@ Sistema web moderno para gestión de inventario desarrollado con Lucee CFML y Po
 ## Capturas de Pantalla
 
 ### Dashboard Principal
-![Dashboard](docs/images/dashboard.jpg)
+![Dashboard](dashboard.jpg)
 
 
 
